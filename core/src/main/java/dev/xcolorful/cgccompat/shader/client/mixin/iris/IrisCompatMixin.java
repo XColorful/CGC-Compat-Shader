@@ -3,6 +3,7 @@ package dev.xcolorful.cgccompat.shader.client.mixin.iris;
 import dev.xcolorful.customgun.client.compat.iris.IrisCompat;
 import net.irisshaders.batchedentityrendering.impl.FullyBufferedMultiBufferSource;
 import net.irisshaders.iris.api.v0.IrisApi;
+import net.irisshaders.iris.pathways.HandRenderer;
 import net.irisshaders.iris.shadows.ShadowRenderingState;
 import net.minecraft.client.renderer.MultiBufferSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,5 +41,18 @@ public class IrisCompatMixin {
             bufferSource.endBatch();
             cir.setReturnValue(true);
         }
+    }
+
+    /**
+     * Iris 的 {@code HandRenderer} 交给 {@code renderHandsWithItems} 的是空 PoseStack（单位阵基底），
+     * 而不是 vanilla {@code renderItemInHand} 那种含摄像机旋转的基底，
+     * 所以它渲染手部期间采到的位移是视图空间量，CGC 得自行换算。
+     * <p>
+     * 用 {@code isActive()} 而不是「装了光影包」来判断：没走 Iris 手部通道时（例如摄像机 detached）
+     * vanilla 的 {@code renderItemInHand} 仍然会给含摄像机旋转的基底
+     */
+    @Inject(method = "isHandPoseStackWorldSpace", at = @At("HEAD"), cancellable = true)
+    private static void cgcc$isHandPoseStackWorldSpace(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(!HandRenderer.INSTANCE.isActive());
     }
 }
