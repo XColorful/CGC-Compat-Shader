@@ -14,6 +14,8 @@ public class CgccShaderForge {
         Dist dist = FMLLoader.getDist();
         McSide mcSide = dist.isClient() ? McSide.CLIENT : McSide.DEDICATED_SERVER;
 
+        CgccShader.init();
+
         if (mcSide == McSide.CLIENT) {
             _CgccShaderForgeClient.init();
         }

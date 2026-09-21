@@ -10,6 +10,7 @@ public class CgccShaderForgeClient {
         if (initialized) return;
 
         CgccShaderClient.init();
+
         initialized = true;
     }
 }
