@@ -13,23 +13,26 @@ credits="${mod_credits}"
 authors="${mod_authors}"
 description='''${mod_description}'''
 
+[[mixins]]
+config="cgccshaderclient.mixins.json"
+
 [[dependencies.${mod_id}]]
 modId="${target_modloader}"
-mandatory=true
+type="required"
 versionRange="${target_version_range}"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
 modId="minecraft"
-mandatory=true
+type="required"
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
 modId="customgun"
-mandatory=true
+type="required"
 versionRange="${customgun_version_range}"
 ordering="AFTER"
 side="BOTH"
