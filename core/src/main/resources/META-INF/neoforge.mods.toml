@@ -36,3 +36,17 @@ type="required"
 versionRange="${customgun_version_range}"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="iris"
+type="required"
+versionRange="${iris_version_range}"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="sodium"
+type="required"
+versionRange="${sodium_version_range}"
+ordering="AFTER"
+side="BOTH"

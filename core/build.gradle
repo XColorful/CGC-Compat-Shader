@@ -9,6 +9,8 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     implementation files(customgun_local)
+    implementation "${iris_maven}"
+    implementation "${sodium_maven}"
 }
 
 jar {
