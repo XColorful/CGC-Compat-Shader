@@ -2,7 +2,7 @@
   "package": "dev.xcolorful.cgccompat.shader.client.mixin",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "customgun.refmap.json",
+  "refmap": "cgccshaderclient.refmap.json",
   "client": [
   ],
   "injectors": {
