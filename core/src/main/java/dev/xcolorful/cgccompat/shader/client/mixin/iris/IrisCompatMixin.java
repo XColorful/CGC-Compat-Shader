@@ -1,7 +1,6 @@
 package dev.xcolorful.cgccompat.shader.client.mixin.iris;
 
 import dev.xcolorful.customgun.client.compat.iris.IrisCompat;
-import net.irisshaders.batchedentityrendering.impl.FullyBufferedMultiBufferSource;
 import net.irisshaders.iris.api.v0.IrisApi;
 import net.irisshaders.iris.pathways.HandRenderer;
 import net.irisshaders.iris.shadows.ShadowRenderingState;
@@ -31,16 +30,17 @@ public class IrisCompatMixin {
     }
 
     /**
-     * 关卡渲染期间 {@code RenderBuffers.bufferSource()} 给的是全缓冲源，
-     * 它把 {@code endBatch(RenderType)} 实现成了空方法，per-type 立即提交会静默失效；
-     * 只有无参 {@code endBatch()} 会真正提交并清空已排队几何体
+     * Iris 1.9.7 起整个 {@code batchedentityrendering} 模块被删掉
+     * {@code RenderBuffers.bufferSource()} 不再被换成全缓冲源
+     * {@code endBatch(RenderType)} 就是真的提交，CGC 那句兜底不需要接管
      */
-    @Inject(method = "endBatch", at = @At("HEAD"), cancellable = true)
+    @Deprecated(since = "1.21.10")
+//    @Inject(method = "endBatch", at = @At("HEAD"), cancellable = true)
     private static void cgcc$endBatch(MultiBufferSource.BufferSource bufferSource, CallbackInfoReturnable<Boolean> cir) {
-        if (bufferSource instanceof FullyBufferedMultiBufferSource) {
-            bufferSource.endBatch();
-            cir.setReturnValue(true);
-        }
+//        if (bufferSource instanceof FullyBufferedMultiBufferSource) {
+//            bufferSource.endBatch();
+//            cir.setReturnValue(true);
+//        }
     }
 
     /**
