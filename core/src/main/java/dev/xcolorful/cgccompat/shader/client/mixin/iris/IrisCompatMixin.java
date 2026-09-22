@@ -36,7 +36,7 @@ public class IrisCompatMixin {
      */
     @Deprecated(since = "1.21.10")
 //    @Inject(method = "endBatch", at = @At("HEAD"), cancellable = true)
-    private static void cgcc$endBatch(MultiBufferSource.BufferSource bufferSource, CallbackInfoReturnable<Boolean> cir) {
+    private static void cgcc$endBatch(Object bufferSource, CallbackInfoReturnable<Boolean> cir) {
 //        if (bufferSource instanceof FullyBufferedMultiBufferSource) {
 //            bufferSource.endBatch();
 //            cir.setReturnValue(true);
