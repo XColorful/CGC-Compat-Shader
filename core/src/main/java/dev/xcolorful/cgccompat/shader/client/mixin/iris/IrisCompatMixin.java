@@ -4,7 +4,6 @@ import dev.xcolorful.customgun.client.compat.iris.IrisCompat;
 import net.irisshaders.iris.api.v0.IrisApi;
 import net.irisshaders.iris.pathways.HandRenderer;
 import net.irisshaders.iris.shadows.ShadowRenderingState;
-import net.minecraft.client.renderer.MultiBufferSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
