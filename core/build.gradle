@@ -8,7 +8,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    implementation files(customgun_local)
+    implementation "${customgun_maven}"
     implementation "${iris_maven}"
     implementation "${sodium_maven}"
 }
