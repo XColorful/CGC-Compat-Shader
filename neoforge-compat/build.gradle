@@ -76,7 +76,7 @@ dependencies {
 
     implementation project(":core")
 
-    implementation files(customgun_local)
+    implementation "${customgun_maven}"
     implementation "${iris_maven}"
     implementation "${sodium_maven}"
 }
