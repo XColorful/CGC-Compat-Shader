@@ -84,7 +84,7 @@ dependencies {
 
     annotationProcessor "${mixin_annotation}"
 
-    compileOnly fg.deobf(files(customgun_local))
+    compileOnly fg.deobf("${customgun_maven}")
     compileOnly fg.deobf("${oculus_maven}")
 }
 

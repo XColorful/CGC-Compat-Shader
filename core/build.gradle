@@ -13,7 +13,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly fg.deobf("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
 
-    compileOnly fg.deobf(files(customgun_local))
+    compileOnly fg.deobf("${customgun_maven}")
     compileOnly fg.deobf("${oculus_maven}")
     compileOnly fg.deobf("${embeddium_maven}")
 }
