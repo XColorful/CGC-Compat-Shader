@@ -1,19 +1,6 @@
 package dev.xcolorful.cgccompat.shader.client.mixin.iris;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.blaze3d.systems.CommandEncoder;
-import com.mojang.blaze3d.systems.RenderPass;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.GpuTextureView;
-import net.irisshaders.batchedentityrendering.impl.FullyBufferedMultiBufferSource;
 import org.jetbrains.annotations.ApiStatus;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.function.Supplier;
 
 /**
  * 让 Iris 的全缓冲源在 flush 时把 NeoForge 的模板测试带上
@@ -30,32 +17,32 @@ import java.util.function.Supplier;
  *     GL 规范下没有 stencil 缓冲就等同于恒真，所以那一侧本改动不改变表现</li>
  * </ul>
  */
-//@Deprecated(since = "1.21.10")
+@Deprecated(since = "1.21.10")
 @ApiStatus.AvailableSince("1.21.6")
-@Mixin(FullyBufferedMultiBufferSource.class)
+//@Mixin(FullyBufferedMultiBufferSource.class)
 public class FullyBufferedMultiBufferSourceMixin {
 
-    @WrapOperation(
-            method = {"endBatch", "endBatchWithType"},
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/systems/CommandEncoder;createRenderPass(Ljava/util/function/Supplier;Lcom/mojang/blaze3d/textures/GpuTextureView;Ljava/util/OptionalInt;Lcom/mojang/blaze3d/textures/GpuTextureView;Ljava/util/OptionalDouble;)Lcom/mojang/blaze3d/systems/RenderPass;"
-            )
-    )
-    private RenderPass cgcc$applyStencilTest(CommandEncoder encoder,
-                                             Supplier<String> debugGroup,
-                                             GpuTextureView colorTexture,
-                                             OptionalInt clearColor,
-                                             GpuTextureView depthTexture,
-                                             OptionalDouble clearDepth,
-                                             Operation<RenderPass> original) {
-        RenderPass pass = original.call(encoder, debugGroup, colorTexture, clearColor, depthTexture, clearDepth);
-
-        var stencilTest = RenderSystem.STENCIL_TEST; // neoforge类
-        if (stencilTest != null) {
-            pass.enableStencilTest(stencilTest);
-        }
-
-        return pass;
-    }
+//    @WrapOperation(
+//            method = {"endBatch", "endBatchWithType"},
+//            at = @At(
+//                    value = "INVOKE",
+//                    target = "Lcom/mojang/blaze3d/systems/CommandEncoder;createRenderPass(Ljava/util/function/Supplier;Lcom/mojang/blaze3d/textures/GpuTextureView;Ljava/util/OptionalInt;Lcom/mojang/blaze3d/textures/GpuTextureView;Ljava/util/OptionalDouble;)Lcom/mojang/blaze3d/systems/RenderPass;"
+//            )
+//    )
+//    private RenderPass cgcc$applyStencilTest(CommandEncoder encoder,
+//                                             Supplier<String> debugGroup,
+//                                             GpuTextureView colorTexture,
+//                                             OptionalInt clearColor,
+//                                             GpuTextureView depthTexture,
+//                                             OptionalDouble clearDepth,
+//                                             Operation<RenderPass> original) {
+//        RenderPass pass = original.call(encoder, debugGroup, colorTexture, clearColor, depthTexture, clearDepth);
+//
+//        var stencilTest = RenderSystem.STENCIL_TEST; // neoforge类
+//        if (stencilTest != null) {
+//            pass.enableStencilTest(stencilTest);
+//        }
+//
+//        return pass;
+//    }
 }
