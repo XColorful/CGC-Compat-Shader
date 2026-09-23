@@ -4,8 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "cgccshaderclient.refmap.json",
   "client": [
-    "iris.IrisCompatMixin",
-    "iris.FullyBufferedMultiBufferSourceMixin"
+    "iris.IrisCompatMixin"
   ],
   "injectors": {
     "defaultRequire": 1
