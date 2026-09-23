@@ -1,6 +1,6 @@
 package dev.xcolorful.cgccompat.shader.client.mixin.iris;
 
-import com.mojang.blaze3d.textures.GpuTexture;
+import com.mojang.renderpearl.api.textures.GpuTexture;
 import net.irisshaders.iris.gl.IrisRenderSystem;
 import net.irisshaders.iris.gl.framebuffer.GlFramebuffer;
 import org.lwjgl.opengl.GL30;
@@ -40,13 +40,13 @@ public class GlFramebufferDepthStencilMixin {
     @Unique
     private GpuTexture cgcc$attachingDepthTexture;
 
-    @Inject(method = "addDepthAttachment(Lcom/mojang/blaze3d/textures/GpuTexture;)V", at = @At("HEAD"))
+    @Inject(method = "addDepthAttachment(Lcom/mojang/renderpearl/api/textures/GpuTexture;)V", at = @At("HEAD"))
     private void cgcc$captureDepthTexture(GpuTexture depthTexture, CallbackInfo ci) {
         this.cgcc$attachingDepthTexture = depthTexture;
     }
 
     @Redirect(
-            method = "addDepthAttachment(Lcom/mojang/blaze3d/textures/GpuTexture;)V",
+            method = "addDepthAttachment(Lcom/mojang/renderpearl/api/textures/GpuTexture;)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/irisshaders/iris/gl/IrisRenderSystem;framebufferTexture2D(IIIIII)V"
