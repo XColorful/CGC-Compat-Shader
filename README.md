@@ -22,12 +22,6 @@
 - Oculus (1.20.1)
   - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/oculus) | [Modrinth](https://modrinth.com/mod/oculus)
 
-## 内容披露
-
-### 衍生内容
-
-- [自定义枪械永续](https://github.com/XColorful/Custom-Gun-Continued)：本模组是采用 [GPL-3.0-only](https://www.gnu.org/licenses/gpl-3.0.txt) 许可证的[自定义枪械永续](https://github.com/XColorful/Custom-Gun-Continued)的兼容模组
-
 ## 许可证
 
 - 代码：[GPL-3.0-only](https://www.gnu.org/licenses/gpl-3.0.txt)
@@ -51,12 +45,6 @@ This mod is a compatibility mod for [Custom Gun Continued](https://github.com/XC
     - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/irisshaders) | [Modrinth](https://modrinth.com/mod/iris)
 - Oculus (1.20.1)
     - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/oculus) | [Modrinth](https://modrinth.com/mod/oculus)
-
-## Content disclosures
-
-### Derivative content
-
-- [Custom Gun Continued](https://github.com/XColorful/Custom-Gun-Continued): This mod is a compatibility mod for [Custom Gun Continued](https://github.com/XColorful/Custom-Gun-Continued), licensed under [GPL-3.0-only](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ## License
 
