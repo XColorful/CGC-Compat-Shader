@@ -1,14 +1,17 @@
 package dev.xcolorful.cgccompat.shader.client.mixin.iris;
 
 import dev.xcolorful.customgun.client.compat.iris.IrisCompat;
+import dev.xcolorful.customgun.client.init.registry.ClientRenderRegistry;
 import net.irisshaders.batchedentityrendering.impl.FullyBufferedMultiBufferSource;
 import net.irisshaders.iris.api.v0.IrisApi;
+import net.irisshaders.iris.api.v0.IrisProgram;
 import net.irisshaders.iris.pathways.HandRenderer;
 import net.irisshaders.iris.shadows.ShadowRenderingState;
 import net.minecraft.client.renderer.MultiBufferSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -54,5 +57,25 @@ public class IrisCompatMixin {
     @Inject(method = "isHandPoseStackWorldSpace", at = @At("HEAD"), cancellable = true)
     private static void cgcc$isHandPoseStackWorldSpace(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(!HandRenderer.INSTANCE.isActive());
+    }
+
+    /**
+     * 把 CGC 的激光束管线派给 Iris 的 program
+     * <ul>
+     *     <li>Iris 按 {@code RenderPipeline} <b>实例</b>查 program 表，只认识 vanilla 的管线；
+     *     没派过的管线不会替换成光影包的着色器（Iris 内部还会记进 missingShaders），
+     *     开光影包后光束要么完全不画、要么落进错误的 pass</li>
+     *     <li>派成 {@code BEACON_BEAM}（信标光束）而不是粒子/实体：光影包里的信标光束程序必须是
+     *     「不写法线 → 不进延迟光照 + 直接乘 glColor」的加性光束，与激光同构。
+     *     粒子/实体程序会读 {@code Normal}（激光的顶点格式 POSITION_COLOR_TEX_LIGHTMAP 没有该属性）
+     *     并套用光影包自己的粒子调色，表现为颜色被冲掉、亮度全由光影包决定</li>
+     * </ul>
+     */
+    @Inject(method = "registerRenderPipelines", at = @At("HEAD"))
+    private static void cgcc$assignLaserPipelines(CallbackInfo ci) {
+        IrisApi irisApi = IrisApi.getInstance();
+
+        irisApi.assignPipeline(ClientRenderRegistry.LaserBeamRenderState.LASER_BEAM_PIPELINE, IrisProgram.BEACON_BEAM);
+        irisApi.assignPipeline(ClientRenderRegistry.LaserBeamRenderState.LASER_BEAM_ENTITY_PIPELINE, IrisProgram.EMISSIVE_ENTITIES);
     }
 }
