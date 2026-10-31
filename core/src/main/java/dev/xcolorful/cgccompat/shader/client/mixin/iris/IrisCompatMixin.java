@@ -77,4 +77,24 @@ public class IrisCompatMixin {
         irisApi.assignPipeline(ClientRenderRegistry.LaserBeamRenderState.LASER_BEAM_PIPELINE, IrisProgram.BEACON_BEAM);
         irisApi.assignPipeline(ClientRenderRegistry.LaserBeamRenderState.LASER_BEAM_ENTITY_PIPELINE, IrisProgram.EMISSIVE_ENTITIES);
     }
+
+    /**
+     * 光影下 Iris 把手部渲染搬进 {@code LevelRenderer}，一帧跑两遍：
+     * {@code HandRenderer#renderSolid} 与 {@code HandRenderer#renderTranslucent}，
+     * 两遍都调 {@code submitHandsWithItems}，于是 RenderHandEvent 每帧派发两次。
+     * <p>
+     * vanilla 的物品由 Iris 在 {@code MixinItemInHandRenderer#iris$skipTranslucentHands}
+     * （{@code submitArmWithItem} 头部）按「物品是否半透明」过滤掉其中一遍；
+     * 而 CGC 取消 RenderHandEvent 会跳过 {@code submitArmWithItem}，也就绕过了那道过滤 ——
+     * 枪与手臂两遍各画一次，第二遍落到 hand_water 程序，两遍深度相同时互相覆盖，
+     * 表现为手臂外层与枪械材质上的环境反射闪烁。
+     * <p>
+     * CGC 的动画物品都不是 {@code BlockItem}，Iris 一律按「不透明」处理，
+     * 所以半透明那一遍直接不画即可
+     */
+    @Inject(method = "isTranslucentHandPass", at = @At("HEAD"), cancellable = true)
+    private static void cgcc$isTranslucentHandPass(CallbackInfoReturnable<Boolean> cir) {
+        HandRenderer handRenderer = HandRenderer.INSTANCE;
+        cir.setReturnValue(handRenderer.isActive() && !handRenderer.isRenderingSolid());
+    }
 }
